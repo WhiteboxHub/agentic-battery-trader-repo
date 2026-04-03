@@ -1,0 +1,52 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Battery Decision Support Agent — LLM Configuration
+#
+# Switch between providers by changing `provider` below.
+# Environment variables always override values in this file.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── Active provider ──────────────────────────────────────────────────────────
+# Options: "openrouter" | "openai" | "ollama"
+provider: openrouter
+
+# ── OpenRouter (default — cloud, requires API key) ───────────────────────────
+openrouter:
+  base_url: https://openrouter.ai/api/v1
+  model: openai/gpt-4o
+  # api_key loaded from OPENROUTER_API_KEY env var
+
+# ── OpenAI direct (cloud, requires API key) ──────────────────────────────────
+openai:
+  base_url: https://api.openai.com/v1
+  model: gpt-4o
+  # api_key loaded from OPENAI_API_KEY env var
+
+# ── Ollama (local, no API key required) ──────────────────────────────────────
+ollama:
+  base_url: http://localhost:11434/v1
+  model: gemma4:e2b-it-q4_K_M
+  # No API key needed. Make sure `ollama serve` is running.
+  # Pull the model first: ollama pull gemma4:e4b-it-q4_K_M
+  #
+  # Other good local options:
+  #   llama3.2:latest
+  #   qwen2.5:7b
+  #   mistral:latest
+  json_mode_supported: false   # set true only if your model supports JSON mode
+  tool_calling_supported: true # gemma4 supports function calling
+
+# ── Per-agent model overrides (optional) ─────────────────────────────────────
+# Leave commented to use the provider default above for all agents.
+# Useful when you want a fast local model for data agents but a stronger
+# cloud model for the Writer/Critic that produce the final report.
+#
+# agents:
+#   analyst: gemma4:e4b-it-q4_K_M      # or openai/gpt-4o-mini
+#   market:  gemma4:e4b-it-q4_K_M
+#   writer:  openai/gpt-4o              # stronger model for report writing
+#   critic:  openai/gpt-4o              # stronger model for quality judging
+
+# ── Pipeline settings ─────────────────────────────────────────────────────────
+pipeline:
+  max_revisions: 2
+  approval_threshold: 7.5
