@@ -24,6 +24,7 @@ from dotenv import load_dotenv
 
 from agent.tools import load_and_validate
 from agent.orchestrator import run_pipeline_sync
+from scripts.visualize import visualize
 
 load_dotenv()
 
@@ -77,8 +78,8 @@ def main() -> None:
     parser.add_argument(
         "--approval-threshold",
         type=float,
-        default=float(os.environ.get("APPROVAL_THRESHOLD", 7.5)),
-        help="Minimum Critic score (0–10) required to approve the report (default: 7.5).",
+        default=float(os.environ.get("APPROVAL_THRESHOLD", 8.5)),
+        help="Minimum Critic score (0–10) required to approve the report (default: 8.5).",
     )
     parser.add_argument(
         "--dry-run",
@@ -153,7 +154,15 @@ def main() -> None:
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(full_report)
 
-    print(f"\nReport saved to: {output_path}\n")
+    print(f"\nReport saved to: {output_path}")
+
+    # Auto-generate visualization dashboard
+    try:
+        vis_path = str(Path(output_path).with_suffix(".png")).replace("report_", "vis_")
+        visualize(csv_path, vis_path)
+        print(f"Visual dashboard saved to: {vis_path}\n")
+    except Exception as exc:
+        print(f"WARNING: Could not generate visualization — {exc}")
     print("=" * 64)
     print(full_report)
 

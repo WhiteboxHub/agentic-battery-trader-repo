@@ -22,10 +22,14 @@ cp .env.example .env
 # Edit .env — fill in OPENROUTER_API_KEY (or OPENAI_API_KEY) and MODEL
 
 # 3. Run
-python main.py data/BLYTHB1_20260126.csv
+##python main.py data/BLYTHB1_20260126.csv
+python main.py data/Takehome_Problem_Agentic_Battery_Analysis_System_BLYTHB1_20260126.csv
 ```
 
 The Markdown report is written to `output/report_<BATTERY>_<DATE>.md` and printed to stdout.
+
+### Automated Visualization
+The system now automatically generates a **Visual Performance Dashboard** (PNG) for every analysis run, plotting Price vs. State of Charge (SOC) to provide immediate context for the revenue gap.
 
 ### CLI flags
 
@@ -169,7 +173,12 @@ agentic-battery-trader/
 ├── tests/
 │   └── test_tools.py       # 19 unit tests for all 6 data tools
 ├── main.py                 # CLI entry point
-├── DESIGN_SPEC.md          # Agent contracts, schema, success criteria
+├── DESIGN_SPEC.md          # Architectural deep-dive and agent contracts
+├── output/
+│   ├── EXAMPLE_REPORT.md   # Explicit deliverable: Sample pipeline output
+│   └── vis_*.png           # Performance dashboards
+├── scripts/
+│   └── visualize.py        # Matplotlib engine for dashboards
 ├── requirements.txt
 └── .env.example
 ```

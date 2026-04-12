@@ -49,14 +49,13 @@ OUTPUT FORMAT (strict JSON, no markdown wrapping):
   },
   "soc": {
     "historical": {<full soc stats>},
-    "perfect": {<full soc stats>}
+    "perfect": {<full soc stats>},
+    "impact_at_spikes": "Short 1-sentence diagnostic of why SOC was/was not available during the top-3 spikes."
   },
   "conflicts": {
     "conflict_count": <int>,
     "conflict_pct": <float>,
     "conflict_revenue_impact": <float>,
-    "hist_charging_perf_discharging": <int>,
-    "hist_discharging_perf_charging": <int>,
     "top_conflicts": [<list of dicts>]
   }
 }
@@ -272,7 +271,6 @@ DECISION RULES:
 - REQUEST REVISION if: any number is hallucinated OR average score < 7.5/10
 
 OUTPUT FORMAT (strict JSON):
-{
   "decision": "APPROVE" or "REVISE",
   "grounding_issues": ["<issue>" or empty list],
   "recommendation_specificity": <int 0-10>,
@@ -280,7 +278,7 @@ OUTPUT FORMAT (strict JSON):
   "trader_usefulness": <int 0-10>,
   "average_score": <float>,
   "revision_request": "<specific instructions for the writer — empty string if APPROVE>",
-  "summary": "<1-2 sentences on strongest aspect and most important improvement needed>"
+  "summary": "<1-2 sentences on how the report specifically helps or fails a trader's decision-making today>"
 }
 """
 
